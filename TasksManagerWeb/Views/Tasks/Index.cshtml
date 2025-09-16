@@ -18,7 +18,7 @@
 
 @if (TempData["SuccessMessage"] != null)
 {
-    <div class="alert alert-success alert-dismissible fade show" role="alert">
+    <div class="alert alert-success alert-dismissible fade show success-message" role="alert">
         @TempData["SuccessMessage"]
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
@@ -41,18 +41,18 @@
                     <tbody>
                         @foreach (var item in Model)
                         {
-                            <tr class="@(item.IsCompleted ? "table-secondary" : "")">
+                            <tr class="@(item.IsCompleted ? "task-completed" : "")">
                                 <td class="text-center">
                                     @if (item.IsCompleted)
                                     {
-                                        <span class="badge bg-success">✓</span>
+                                        <span class="badge bg-success"><i class="bi bi-check-circle-fill"></i></span>
                                     }
                                     else
                                     {
-                                        <span class="badge bg-warning">○</span>
+                                        <span class="badge bg-secondary"><i class="bi bi-circle"></i></span>
                                     }
                                 </td>
-                                <td class="@(item.IsCompleted ? "text-decoration-line-through text-muted" : "")">
+                                <td class="@(item.IsCompleted ? "task-description-completed" : "")">
                                     @Html.DisplayFor(modelItem => item.Description)
                                 </td>
                                 <td class="text-muted">
@@ -61,8 +61,8 @@
                                 <td>
                                     <div class="btn-group" role="group">
                                         <form asp-action="ToggleComplete" method="post" class="d-inline">
-                                            <input type="hidden" asp-for="@item.Id" />
-                                            <button type="submit" class="btn btn-sm @(item.IsCompleted ? "btn-outline-warning" : "btn-outline-success")" title="@(item.IsCompleted ? "Mark as Incomplete" : "Mark as Complete")">
+                                            <input type="hidden" name="id" value="@item.Id" />
+                                            <button type="submit" class="btn btn-sm task-toggle-btn @(item.IsCompleted ? "btn-outline-warning" : "btn-outline-success")" title="@(item.IsCompleted ? "Mark as Incomplete" : "Mark as Complete")">
                                                 @if (item.IsCompleted)
                                                 {
                                                     <i class="bi bi-arrow-counterclockwise"></i>
