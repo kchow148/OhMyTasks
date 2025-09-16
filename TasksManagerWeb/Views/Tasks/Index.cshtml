@@ -1,0 +1,108 @@
+@model IEnumerable<TasksManagerWeb.Models.TaskItem>
+
+@{
+    ViewData["Title"] = "Task Manager";
+}
+
+<div class="row">
+    <div class="col-md-8">
+        <h2>@ViewData["Title"]</h2>
+        <p class="text-muted">Manage your tasks efficiently</p>
+    </div>
+    <div class="col-md-4 text-end">
+        <a asp-action="Create" class="btn btn-success">
+            <i class="bi bi-plus-circle"></i> Add New Task
+        </a>
+    </div>
+</div>
+
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        @TempData["SuccessMessage"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
+
+<div class="card">
+    <div class="card-body">
+        @if (Model.Any())
+        {
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead class="table-light">
+                        <tr>
+                            <th style="width: 50px;">Status</th>
+                            <th>Task Description</th>
+                            <th style="width: 150px;">Created</th>
+                            <th style="width: 200px;">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr class="@(item.IsCompleted ? "table-secondary" : "")">
+                                <td class="text-center">
+                                    @if (item.IsCompleted)
+                                    {
+                                        <span class="badge bg-success">✓</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge bg-warning">○</span>
+                                    }
+                                </td>
+                                <td class="@(item.IsCompleted ? "text-decoration-line-through text-muted" : "")">
+                                    @Html.DisplayFor(modelItem => item.Description)
+                                </td>
+                                <td class="text-muted">
+                                    @item.CreatedAt.ToString("MMM dd, yyyy")
+                                </td>
+                                <td>
+                                    <div class="btn-group" role="group">
+                                        <form asp-action="ToggleComplete" method="post" class="d-inline">
+                                            <input type="hidden" asp-for="@item.Id" />
+                                            <button type="submit" class="btn btn-sm @(item.IsCompleted ? "btn-outline-warning" : "btn-outline-success")" title="@(item.IsCompleted ? "Mark as Incomplete" : "Mark as Complete")">
+                                                @if (item.IsCompleted)
+                                                {
+                                                    <i class="bi bi-arrow-counterclockwise"></i>
+                                                }
+                                                else
+                                                {
+                                                    <i class="bi bi-check-circle"></i>
+                                                }
+                                            </button>
+                                        </form>
+                                        <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-sm btn-outline-danger" title="Delete Task">
+                                            <i class="bi bi-trash"></i>
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        }
+        else
+        {
+            <div class="text-center py-5">
+                <i class="bi bi-list-task display-4 text-muted"></i>
+                <h4 class="text-muted mt-3">No tasks found</h4>
+                <p class="text-muted">Start by adding your first task!</p>
+                <a asp-action="Create" class="btn btn-primary">
+                    <i class="bi bi-plus-circle"></i> Add Your First Task
+                </a>
+            </div>
+        }
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        // Auto-hide success alerts after 3 seconds
+        setTimeout(function() {
+            $('.alert-success').fadeOut('slow');
+        }, 3000);
+    </script>
+}

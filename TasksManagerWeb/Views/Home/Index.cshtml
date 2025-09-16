@@ -1,0 +1,51 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Welcome to OhMyTasks</h1>
+    <p class="lead">Your personal task management solution</p>
+    <p>Organize your tasks, track your progress, and get things done efficiently.</p>
+    
+    <div class="mt-4">
+        <a asp-controller="Tasks" asp-action="Index" class="btn btn-primary btn-lg">
+            <i class="bi bi-list-task"></i> Manage My Tasks
+        </a>
+        <a asp-controller="Tasks" asp-action="Create" class="btn btn-success btn-lg ms-2">
+            <i class="bi bi-plus-circle"></i> Add New Task
+        </a>
+    </div>
+    
+    <div class="row mt-5">
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">
+                        <i class="bi bi-plus-circle text-success"></i> Add Tasks
+                    </h5>
+                    <p class="card-text">Create new tasks with detailed descriptions to keep track of what needs to be done.</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">
+                        <i class="bi bi-check-circle text-primary"></i> Mark Complete
+                    </h5>
+                    <p class="card-text">Track your progress by marking tasks as complete when you finish them.</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">
+                        <i class="bi bi-trash text-danger"></i> Delete Tasks
+                    </h5>
+                    <p class="card-text">Remove tasks that are no longer needed to keep your list clean and organized.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
